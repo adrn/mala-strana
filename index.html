@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>m^al_a s(tr//an:a</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+	<script src="http://d3js.org/d3.v2.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+	    var commands = ["..<br/>", "...<br/>", "....<br/>", "wait<br/>", 
+	                    "....", "....", "....<br/>", "<span class='error'>error: /dev/sda1</span>",
+	                    "=~/...", "~","~","~~~", "--./", "\\,*", "*", "*", "/", "\\", "/", "\\", "/", "\\", "/", "\\", "/", "\\",
+	                    "|","|","|","|","|","|","|","|","|","|","|","|","|","_","_","_","_","_","_","_","_","_","_","_","_","_",
+	                    "<br/>....","<br/>....","<br/>...."];
+        
+        commands.push("<br/>zLVLVLLLLLLLDLeLkLLaLLLLLLL5M    5string1:string2:(RANDOM):string3:(RANDOM)R 0000000297000000025309458093771 BLYLL69L6K L6L6L7LLLL");
+	    
+        function start_console() {
+            var i = 0;
+            var rando = 10,
+                interval_base = 200; // ms
+            
+            // create the initial intervalTime
+            var intervalTime = Math.random(rando) * interval_base;
+            console.log("Initial duration: " + intervalTime + "ms");
+            
+            // call setInterval with this random duration
+            console_timer = setInterval(update_console, intervalTime);
+            
+            function update_console() {
+                clearInterval(console_timer);
+                intervalTime = Math.random(rando) * interval_base;
+                
+                var old_text = $("#prompt").html();
+                $("#prompt").html(old_text + "" + commands[i]);
+                if (i == commands.length-1) { 
+                    clearInterval(console_timer); 
+                    start_svg();
+                    return;
+                }
+                i += 1
+                
+                console_timer = setInterval(update_console, intervalTime);
+                console.log("New duration: " + intervalTime + "ms");
+            }
+        }
+        
+        function start_svg() {
+            //var add_to = "#container";
+            var add_to = "body";
+            
+            var w = $(add_to).width(),
+                h = $(add_to).height();
+            
+            var line = d3.svg.line()
+                         .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; });
+            
+            var main_svg = d3.select(add_to).append("svg")
+                             .attr("width", w)
+                             .attr("height", h);
+            
+            var line_data = [{"x" : 0., "y" : 0.}, {"x" : 10., "y" : 10.}, {"x" : 100., "y" : 100.}];
+            var wave_line = main_svg.append("svg:path")
+                    .attr("stroke-width", 2.0)
+                    .attr("stroke", "rgb(150,150,150)")
+                    .attr("fill", "transparent")
+                    .attr("opacity", 0.25);
+            
+            var draw_line = function(data) {
+                wave_line.transition().attr("d", line(data));
+            }
+            
+            //var jj = 0;
+            var code = setInterval(function () {
+                
+                var line_data = new Array();
+                for (var kk=0; kk < w/4; kk++) {
+                    line_data.push({x:kk*4, y:h/2*(Math.sin(kk/8) + Math.random()*2)});
+                }
+
+                draw_line(line_data);
+                //if (jj >= 50) { clearInterval(code); }
+                //jj += 1;
+                
+            }, 100);
+        }
+    </script>
+	
+</head>
+<body onLoad="start_console();">
+
+	<div id="container">
+	    <div id="prompt">
+	        .<br/>
+	    </div>
+	</div>
+
+</body>
+</html>
