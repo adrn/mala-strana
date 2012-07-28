@@ -1,5 +1,3 @@
-Mala Strana
-===========
+mala strana
 
 on then off then on
-   --- power cycle ---
